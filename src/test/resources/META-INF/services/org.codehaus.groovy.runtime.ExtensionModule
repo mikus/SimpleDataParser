@@ -1,0 +1,3 @@
+moduleName = utils
+moduleVersion = 1.0
+extensionClasses = net.mikus.assignment.sdp.Utils

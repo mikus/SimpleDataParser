@@ -1,0 +1,51 @@
+group 'net.mikus.assignment'
+version '1.0'
+
+apply plugin: 'java'
+apply plugin: 'groovy'
+apply plugin: 'idea'
+apply plugin: 'application'
+apply plugin: 'findbugs'
+
+sourceCompatibility = 1.8
+
+idea {
+    module {
+        inheritOutputDirs = false
+        outputDir = file("$buildDir/classes/main/")
+    }
+}
+
+mainClassName = 'net.mikus.assignment.sdp.Program'
+
+jar {
+    baseName = 'sdp'
+    manifest {
+        attributes 'Main-Class': mainClassName
+    }
+}
+
+repositories {
+    mavenCentral()
+    maven {
+        url 'http://xbib.org/repository/'
+    }
+}
+
+dependencies {
+    testCompile 'org.spockframework:spock-core:latest.release'
+    testCompile 'cglib:cglib-nodep:3.2+'
+    testCompile 'org.objenesis:objenesis:latest.release'
+}
+
+tasks.withType(GroovyCompile) {
+    groovyOptions.optimizationOptions.indy = true
+}
+
+tasks.withType(FindBugs) {
+    reports {
+        xml.enabled = false
+        html.enabled = true
+    }
+    excludeFilter = file("$rootProject.projectDir/config/findbugs/excludeFilter.xml")
+}
